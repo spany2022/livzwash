@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/*
+ * Brand colours come from src/config/business.ts and are injected as CSS
+ * variables on <body> (see src/lib/theme.ts). Never hard-code brand colours
+ * in components — use these utilities: bg-brand, text-brand, bg-brand-soft …
+ */
+@theme inline {
+  --color-brand: var(--brand-primary);
+  --color-on-brand: var(--brand-on-primary);
+  --color-brand-soft: var(--brand-secondary);
+  --color-on-brand-soft: var(--brand-on-secondary);
+  --color-ink: #231a14;
+  --color-muted: #6f6259;
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-face);
+
+  --animate-step-in: step-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-star-pop: star-pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-steam: steam 2.4s ease-in-out infinite;
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes star-pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.22) rotate(-6deg); }
+  100% { transform: scale(1); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes steam {
+  0%, 100% { opacity: 0.25; transform: translateY(2px) scaleY(0.9); }
+  50% { opacity: 0.9; transform: translateY(-3px) scaleY(1.05); }
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--brand-secondary, #f5ebdd);
+  color: var(--color-ink);
+}
+
+/* Warm paper texture: a soft glow plus a tiny inline noise tile (no image request). */
+.paper-bg {
+  background-color: var(--brand-secondary);
+  background-image:
+    radial-gradient(120% 60% at 50% -10%, color-mix(in srgb, white 70%, transparent), transparent 70%),
+    radial-gradient(80% 50% at 100% 110%, color-mix(in srgb, var(--brand-primary) 14%, transparent), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+/* Admin canvas: a very light tint of the brand background. */
+.admin-bg {
+  background-color: color-mix(in srgb, var(--brand-secondary) 32%, #fbfaf8);
+}
